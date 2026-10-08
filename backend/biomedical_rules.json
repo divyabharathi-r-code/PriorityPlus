@@ -1,0 +1,25 @@
+{
+    "vitals": {
+        "heart_rate": {
+            "enabled": false,
+            "unit": "bpm",
+            "reference_min": null,
+            "reference_max": null,
+            "source": ""
+        },
+        "spo2": {
+            "enabled": false,
+            "unit": "%",
+            "reference_min": null,
+            "reference_max": null,
+            "source": ""
+        },
+        "temperature": {
+            "enabled": false,
+            "unit": "°C",
+            "reference_min": null,
+            "reference_max": null,
+            "source": ""
+        }
+    }
+}

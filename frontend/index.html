@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Priority+</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #ffffff;
+            padding: 24px 40px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #6b7280;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result-section {
+            margin-top: 20px;
+        }
+
+        .result-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .result-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .empty {
+            color: #6b7280;
+        }
+
+        .finding {
+            border-left: 4px solid #2563eb;
+        }
+
+        .missing {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .warning {
+            border-left: 4px solid #ef4444;
+        }
+
+        .success {
+            border-left: 4px solid #10b981;
+        }
+
+        ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        @media (max-width: 800px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 20px;
+            }
+        }
+/* AI Reasoning - compact layout */
+#aiReasoning .ai-section {
+    margin: 0 !important;
+    padding: 0 0 8px 0 !important;
+}
+
+#aiReasoning .ai-section:last-child {
+    padding-bottom: 0 !important;
+}
+
+#aiReasoning .ai-section h3 {
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+    font-size: 15px !important;
+}
+
+#aiReasoning .ai-section p {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.4 !important;
+}
+.context-item {
+    background: #f8fafc;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.context-item strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.lab-results {
+    line-height: 1.6;
+}
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="header">
+
+        <h1>Priority+</h1>
+
+        <p>
+            Healthcare Context & Review Support
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="grid">
+
+
+            <!-- PATIENT INPUT -->
+
+            <div class="card">
+
+                <h2>Patient Information</h2>
+
+
+                <div class="form-group">
+
+                    <label>Age</label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        placeholder="Enter age"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Symptoms</label>
+
+                    <input
+                        type="text"
+                        id="symptoms"
+                        placeholder="Example: fever, cough"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Heart Rate</label>
+
+                    <input
+                        type="number"
+                        id="heartRate"
+                        placeholder="Example: 80"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>SpO₂</label>
+
+                    <input
+                        type="number"
+                        id="spo2"
+                        placeholder="Example: 98"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Temperature</label>
+
+                    <input
+                        type="number"
+                        step="0.1"
+                        id="temperature"
+                        placeholder="Example: 37.0"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Medical History</label>
+
+                    <input
+                        type="text"
+                        id="history"
+                        placeholder="Example: asthma, diabetes"
+                    >
+
+                </div>
+                <div class="form-group">
+    <label for="hemoglobin">Hemoglobin</label>
+    <input
+        type="number"
+        id="hemoglobin"
+        step="0.1"
+        placeholder="e.g. 13.2"
+    >
+</div>
+
+<div class="form-group">
+    <label for="wbc">WBC Count</label>
+    <input
+        type="number"
+        id="wbc"
+        step="0.1"
+        placeholder="e.g. 8.5"
+    >
+</div>
+
+<div class="form-group">
+    <label for="crp">CRP</label>
+    <input
+        type="number"
+        id="crp"
+        step="0.1"
+        placeholder="e.g. 5.0"
+    >
+</div>
+
+
+                <button onclick="analyzePatient()">
+
+                    ANALYZE PATIENT
+
+                </button>
+
+            </div>
+
+
+            <!-- PATIENT CONTEXT -->
+
+            <div class="card">
+
+                <h2>Patient Context</h2>
+
+                <div id="patientContext">
+
+                    <p class="empty">
+                        Enter patient information and analyze.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="result-section">
+
+
+            <!-- FINDINGS -->
+            <!-- PRIORITY -->
+
+<div class="card">
+
+    <h2>Priority</h2>
+
+    <div id="priority">
+
+        <p class="empty">
+            No priority calculated yet.
+        </p>
+
+    </div>
+
+</div>
+
+<br>
+            <div class="card">
+
+                <h2>🔎 Key Findings</h2>
+
+                <div id="findings">
+
+                    <p class="empty">
+                        No findings yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- MISSING CONTEXT -->
+
+            <div class="card">
+
+                <h2>📋 Missing Context</h2>
+
+                <div id="missingContext">
+
+                    <p class="empty">
+                        No information yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- DATA QUALITY -->
+
+            <div class="card">
+
+                <h2>⚠ Data Quality</h2>
+
+                <div id="warnings">
+
+                    <p class="empty">
+                        No information yet.
+                    </p>
+
+                </div>
+
+            </div>
+            <br>
+
+<!-- WHY IT MATTERS -->
+
+<div class="card">
+
+    <h2>🧠 Why It Matters</h2>
+
+    <div id="whyItMatters">
+
+        <p class="empty">
+            No explanation yet.
+        </p>
+
+    </div>
+
+</div>
+
+
+<br>
+<div class="card">
+
+    <h2>Biomedical Reference Checks</h2>
+
+    <div id="referenceChecks">
+        No reference checks available.
+    </div>
+
+</div>
+<br>
+
+
+<!-- NEXT STEP -->
+
+<div class="card">
+
+    <h2>➡ Next-Step Support</h2>
+
+    <div id="nextStep">
+
+
+        <p class="empty">
+            No next-step support yet.
+        </p>
+
+    </div>
+
+</div> 
+<br>
+<div class="card">
+    <h2>🧠 AI Reasoning</h2>
+    <div id="aiReasoning">
+        AI reasoning will appear here after analysis.
+    </div>
+</div>
+
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        async function analyzePatient() {
+
+
+            // -------------------------
+            // Get form values
+            // -------------------------
+
+            const age =
+                Number(
+                    document.getElementById("age").value
+                );
+
+
+            const symptomsText =
+                document.getElementById("symptoms").value;
+
+
+            const heartRate =
+                Number(
+                    document.getElementById("heartRate").value
+                );
+
+
+            const spo2 =
+                Number(
+                    document.getElementById("spo2").value
+                );
+
+
+            const temperature =
+                Number(
+                    document.getElementById("temperature").value
+                );
+
+
+            const historyText =
+                document.getElementById("history").value;
+
+
+            // -------------------------
+            // Convert text → arrays
+            // -------------------------
+
+            const symptoms =
+                symptomsText
+                    .split(",")
+                    .map(item => item.trim())
+                    .filter(item => item !== "");
+
+
+            const history =
+                historyText
+                    .split(",")
+                    .map(item => item.trim())
+                    .filter(item => item !== "");
+
+
+            // -------------------------
+            // Create patient object
+            // -------------------------
+
+const hemoglobin = document.getElementById("hemoglobin").value;
+const wbc = document.getElementById("wbc").value;
+const crp = document.getElementById("crp").value;
+
+const labs = {};
+
+if (hemoglobin !== "") {
+    labs.hemoglobin = Number(hemoglobin);
+}
+
+if (wbc !== "") {
+    labs.wbc = Number(wbc);
+}
+
+if (crp !== "") {
+    labs.crp = Number(crp);
+}
+
+const patient = {
+    age: age,
+    symptoms: symptoms,
+    vitals: {
+        heart_rate: heartRate,
+        spo2: spo2,
+        temperature: temperature
+    },
+    history: history,
+    labs: labs
+};
+
+
+            try {
+
+
+                // -------------------------
+                // Send to FastAPI
+                // -------------------------
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:8000/analyze",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(patient)
+
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                // -------------------------
+                // Display results
+                // -------------------------
+
+                displayResults(result);
+
+
+            }
+
+            catch (error) {
+
+
+                console.error(error);
+
+                document.getElementById(
+                    "findings"
+                ).innerHTML =
+                    `<p class="warning">
+                        Unable to connect to Priority+ backend.
+                    </p>`;
+
+            }
+
+        }
+
+
+        function displayResults(result) {
+
+
+            const context =
+                result.context;
+            const labs = context.labs || {};
+            const checks = result.biomedical_checks;
+            const aiReasoning = result.ai_reasoning;
+
+            const referenceChecks =
+    document.getElementById("referenceChecks");
+            const referenceResults =
+        checks.reference_checks || [];
+
+if (referenceResults.length === 0) {
+
+    referenceChecks.innerHTML = `
+        <div class="result-item">
+            No configured reference checks triggered.
+        </div>
+    `;
+
+} else {
+
+    referenceChecks.innerHTML =
+        checks.reference_checks.map(check => `
+
+            <div class="result-item finding">
+
+                <strong>
+                    ${check.field}
+                </strong>
+
+                <p>
+                    Value: ${check.value} ${check.unit || ""}
+                </p>
+
+                <p>
+                    ${check.explanation}
+                </p>
+
+                <small>
+                    Source: ${check.source || "Configured reference"}
+                </small>
+
+            </div>
+
+        `).join("");
+}
+
+
+            
+            const priority =
+    document.getElementById("priority");
+
+priority.innerHTML = `
+    <div class="result-item finding">
+
+        <strong>
+            ${checks.priority}
+        </strong>
+
+        Priority+ has identified information
+        that may require additional review.
+
+    </div>
+`;
+document.getElementById(
+    "whyItMatters"
+).innerHTML = `
+
+    <div class="result-item">
+
+        ${checks.why_it_matters}
+
+    </div>
+
+`;
+
+
+document.getElementById(
+    "nextStep"
+).innerHTML = `
+
+    <div class="result-item">
+
+        ${checks.next_step}
+
+    </div>
+
+`;
+document.getElementById("aiReasoning").innerHTML = `
+    <div class="ai-section">
+        <h3>Summary</h3>
+        <p>${aiReasoning.summary}</p>
+    </div>
+
+    <div class="ai-section">
+        <h3>What was identified</h3>
+        <p>${aiReasoning.identified}</p>
+    </div>
+
+    <div class="ai-section">
+        <h3>Contextual findings</h3>
+        <p>${aiReasoning.contextual_findings}</p>
+    </div>
+
+    <div class="ai-section">
+        <h3>Missing information</h3>
+        <p>${aiReasoning.missing_information}</p>
+    </div>
+
+    <div class="ai-section">
+        <h3>Why review matters</h3>
+        <p>${aiReasoning.why_review_matters}</p>
+    </div>
+
+    <div class="ai-section">
+        <h3>Next steps</h3>
+        <p>${aiReasoning.next_steps}</p>
+    </div>
+`;
+
+
+            // -------------------------
+            // Patient Context
+            // -------------------------
+
+            document.getElementById(
+                "patientContext"
+            ).innerHTML = `
+
+                <div class="result-item">
+
+                    <strong>Age</strong>
+
+                    ${context.demographics.age ?? "Not provided"}
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <strong>Symptoms</strong>
+
+                    ${
+                        context.symptoms.length > 0
+                        ? context.symptoms.join(", ")
+                        : "Not provided"
+                    }
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <strong>Medical History</strong>
+
+                    ${
+                        context.history.length > 0
+                        ? context.history.join(", ")
+                        : "Not provided"
+                    }
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <strong>Vitals</strong>
+
+                    Heart Rate:
+                    ${context.vitals.heart_rate ?? "N/A"}
+                    <br>
+
+                    SpO₂:
+                    ${context.vitals.spo2 ?? "N/A"}
+                    <br>
+
+                    Temperature:
+                    ${context.vitals.temperature ?? "N/A"}
+
+                </div>
+                <div class="context-item">
+               <strong>Laboratory Results</strong><br>
+    ${
+        Object.keys(labs).length > 0
+            ? `
+                Hemoglobin: ${labs.hemoglobin ?? "Not provided"}
+                <br>
+                WBC: ${labs.wbc ?? "Not provided"}<br>
+                CRP: ${labs.crp ?? "Not provided"}
+              `
+            : "No laboratory results provided."
+    }
+</div>
+
+            `;
+
+
+            // -------------------------
+            // Findings
+            // -------------------------
+
+            const findings =
+                document.getElementById(
+                    "findings"
+                );
+
+
+            if (checks.findings.length === 0) {
+
+                findings.innerHTML = `
+                    <div class="result-item success">
+                        No contextual findings detected.
+                    </div>
+                `;
+
+            }
+
+            else {
+
+                findings.innerHTML =
+                    checks.findings
+                        .map(
+                            finding => `
+
+                                <div class="result-item finding">
+
+                                    <strong>
+                                        Review Flag
+                                    </strong>
+
+                                    ${
+                                        finding.type
+                                            .replaceAll(
+                                                "_",
+                                                " "
+                                            )
+                                    }
+
+                                </div>
+
+                            `
+                        )
+                        .join("");
+
+            }
+
+
+            // -------------------------
+            // Missing Context
+            // -------------------------
+
+            const missing =
+                document.getElementById(
+                    "missingContext"
+                );
+
+
+            if (
+                checks.missing_context.length === 0
+            ) {
+
+                missing.innerHTML = `
+                    <div class="result-item success">
+                        No missing context detected.
+                    </div>
+                `;
+
+            }
+
+            else {
+
+                missing.innerHTML = `
+
+                    <div class="result-item missing">
+
+                        <strong>
+                            Information that may need review:
+                        </strong>
+
+                        <ul>
+
+                            ${
+                                checks.missing_context
+                                    .map(
+                                        item =>
+                                            `<li>${item}</li>`
+                                    )
+                                    .join("")
+                            }
+
+                        </ul>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            // -------------------------
+            // Warnings
+            // -------------------------
+
+            const warnings =
+                document.getElementById(
+                    "warnings"
+                );
+
+
+            if (checks.warnings.length === 0) {
+
+                warnings.innerHTML = `
+                    <div class="result-item success">
+                        ✓ No data-quality warnings detected.
+                    </div>
+                `;
+
+            }
+
+            else {
+
+                warnings.innerHTML = `
+
+                    <div class="result-item warning">
+
+                        <ul>
+
+                            ${
+                                checks.warnings
+                                    .map(
+                                        item =>
+                                            `<li>${item}</li>`
+                                    )
+                                    .join("")
+                            }
+
+                        </ul>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
