@@ -316,6 +316,7 @@ Priority+ is designed to support professional review rather than replace healthc
 ---
 ## Current Prototype Status
 ### Version 5
+```
 -✅ Context Engine
 -✅ FastAPI Backend
 -✅ Biomedical Checks
@@ -328,6 +329,7 @@ Priority+ is designed to support professional review rather than replace healthc
 -✅ Structured Dashboard
 -✅ Data Quality Checks
 -✅ Configurable Biomedical Rules
+```
 
 ---
 ## 🔐 Security
@@ -338,12 +340,14 @@ The .env file is excluded from version control using .gitignore.
 The Groq API key is never exposed to the frontend.
 AI requests are handled by the backend.
 
----
+-----
 
 ## ⚠️ Disclaimer
+```
 -Priority+ is an experimental prototype developed for educational, research, and hackathon purposes.
 -It is intended to organize healthcare information and provide AI-assisted professional review support.
 -It should not be used as a substitute for medical professionals, clinical judgment, diagnosis, or treatment decisions.
 -The biomedical reference rules used by the prototype should be independently verified before any real-world or clinical use.
+```
 
----
+------
